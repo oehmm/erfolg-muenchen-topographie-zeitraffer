@@ -5,6 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lion Feuchtwanger: Erfolg – Abstrakte München-Karte & Zeitraffer</title>
   <script src="https://cdn.tailwindcss.com"></script>
+ /* --- Spezielles Responsive-Design für Mobilgeräte (Handys) --- */
+@media (max-width: 640px) {
+  /* 1. Haupt-Notizkarte verkleinern und am oberen Bildschirmrand fixieren */
+  .note-card, 
+  #info-overlay, 
+  [class*="cyan-note"],
+  .station-card {
+    max-width: 88vw !important;
+    width: auto !important;
+    max-height: 38vh !important;
+    padding: 10px 14px !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    top: 12px !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  /* 2. Überschriften auf dem Zettel kompakter machen */
+  .note-card h1, .note-card h2, .note-card h3,
+  .station-card h1, .station-card h2, .station-card h3 {
+    font-size: 13px !important;
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* 3. Metadaten (Buch/Kapitel, Adresse) verkleinern */
+  .note-meta, .station-meta, .badge {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* 4. Fließtext & Figurenschlüssel kürzen / kompakter halten */
+  .note-body, .station-desc {
+    font-size: 10.5px !important;
+    margin-top: 4px !important;
+  }
+
+  /* 5. Steuerungsleiste unten für Daumenbedienung optimieren */
+  .timeline-controls, #controls-bar {
+    padding: 6px 12px !important;
+    gap: 8px !important;
+    bottom: 8px !important;
+  }
+}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
