@@ -96,12 +96,38 @@
       opacity: 0.72;
     }
 
+    /* Flacker-freies Pin-Styling */
+    #pinsGroup g {
+      pointer-events: bounding-box;
+      transform-box: fill-box;
+      transform-origin: center;
+      cursor: pointer;
+    }
+
+    .pin-halo {
+      fill: rgba(56, 189, 248, 0.12);
+      stroke: rgba(56, 189, 248, 0.45);
+      stroke-width: 1.2px;
+      transition: all 0.2s ease;
+    }
+
+    #pinsGroup g:hover .pin-halo {
+      fill: rgba(56, 189, 248, 0.3) !important;
+      stroke: #ffffff !important;
+      stroke-width: 2px !important;
+    }
+
     .station-pin-bg {
       fill: #090d16;
       stroke: #38bdf8;
       stroke-width: 1.5;
       transition: all 0.2s ease;
     }
+
+    #pinsGroup g:hover .station-pin-bg {
+      stroke: #ffffff;
+    }
+
     .station-pin-text {
       fill: #ffffff;
       font-family: 'Space Mono', monospace;
@@ -111,6 +137,7 @@
       dominant-baseline: central;
       pointer-events: none;
     }
+
     .station-pin-active .station-pin-bg {
       fill: #0284c7;
       stroke: #ffffff;
@@ -487,7 +514,7 @@
         chapter: "Kap. 1 & 5: Josef und seine Brüder / Herr Hessreiter demonstriert",
         name: "Staatsgalerie & Galerie Novodny",
         address: "Königsplatz / Brienner Straße (Maxvorstadt)",
-        coords: { x: 505, y: 345 }, // Exakt am Königsplatz / Brienner Straße nordwestlich der Altstadt
+        coords: { x: 505, y: 345 },
         desc: "In der Staatsgalerie hängt Martin Krüger das Gemälde »Josef und seine Brüder« von Franz Landholzer auf[cite: 2]. In der Galerie Novodny an der Brienner Straße kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].",
         characters: ["Dr. Martin Krüger", "Paul Hessreiter", "Galerist Novodny"],
         histKey: "Krüger = Felix Fechenbach / Ernst Toller; Greiderer = Georg Schrimpf.",
@@ -840,12 +867,11 @@
 
       STATIONS.forEach((st, idx) => {
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        g.setAttribute("class", "cursor-pointer transition-transform duration-200");
         g.setAttribute("id", `map-pin-${idx}`);
         g.setAttribute("transform", `translate(${st.coords.x}, ${st.coords.y})`);
 
         g.innerHTML = `
-          <circle r="16" class="pin-halo fill-sky-400/10 stroke-sky-400/40 hover:stroke-white transition" stroke-width="1.2" />
+          <circle r="16" class="pin-halo" />
           <circle r="10" class="station-pin-bg" />
           <text class="station-pin-text" y="0.5">${idx + 1}</text>
         `;
@@ -966,7 +992,7 @@
           if (idx === index) {
             pin.setAttribute("class", "cursor-pointer scale-125 station-pin-active");
           } else {
-            pin.setAttribute("class", "cursor-pointer hover:scale-110 transition-transform");
+            pin.setAttribute("class", "cursor-pointer");
           }
         }
 
