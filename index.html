@@ -97,22 +97,32 @@
     }
 
     /* Flacker-freies Pin-Styling */
-    #pinsGroup g {
-      pointer-events: bounding-box;
-      transform-box: fill-box;
-      transform-origin: center;
+    #stickyPointerArrow,
+    #routeTrajectory,
+    #focalPulse,
+    #focalPoint {
+      pointer-events: none !important;
+    }
+
+    .station-pin-group {
       cursor: pointer;
     }
 
-    .pin-halo {
-      fill: rgba(56, 189, 248, 0.12);
-      stroke: rgba(56, 189, 248, 0.45);
-      stroke-width: 1.2px;
-      transition: all 0.2s ease;
+    .station-pin-hit {
+      fill: transparent;
+      pointer-events: all;
     }
 
-    #pinsGroup g:hover .pin-halo {
-      fill: rgba(56, 189, 248, 0.3) !important;
+    .pin-halo {
+      fill: rgba(56, 189, 248, 0.15);
+      stroke: rgba(56, 189, 248, 0.5);
+      stroke-width: 1.5px;
+      pointer-events: none;
+      transition: fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .station-pin-group:hover .pin-halo {
+      fill: rgba(56, 189, 248, 0.35) !important;
       stroke: #ffffff !important;
       stroke-width: 2px !important;
     }
@@ -121,10 +131,11 @@
       fill: #090d16;
       stroke: #38bdf8;
       stroke-width: 1.5;
-      transition: all 0.2s ease;
+      pointer-events: none;
+      transition: stroke 0.2s ease, fill 0.2s ease;
     }
 
-    #pinsGroup g:hover .station-pin-bg {
+    .station-pin-group:hover .station-pin-bg {
       stroke: #ffffff;
     }
 
@@ -139,14 +150,18 @@
     }
 
     .station-pin-active .station-pin-bg {
-      fill: #0284c7;
-      stroke: #ffffff;
-      stroke-width: 2.2;
+      fill: #0284c7 !important;
+      stroke: #ffffff !important;
+      stroke-width: 2.2 !important;
       filter: drop-shadow(0 0 8px #38bdf8);
     }
     .station-pin-active .station-pin-text {
-      fill: #ffffff;
-      font-size: 12px;
+      fill: #ffffff !important;
+      font-size: 12px !important;
+    }
+    .station-pin-active .pin-halo {
+      stroke: #38bdf8 !important;
+      fill: rgba(56, 189, 248, 0.35) !important;
     }
 
     input[type=range] {
@@ -380,14 +395,16 @@
         </g>
 
         <path id="routeTrajectory" d="" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,3" opacity="0.75" />
-        <path id="stickyPointerArrow" d="" fill="none" stroke="#38bdf8" stroke-width="2.4" marker-end="url(#cyanArrowHead)" class="transition-all duration-500 ease-out opacity-90" />
+        <path id="stickyPointerArrow" d="" fill="none" stroke="#38bdf8" stroke-width="2.4" marker-end="url(#cyanArrowHead)" class="transition-all duration-500 ease-out opacity-90 pointer-events-none" />
+        
         <g id="pinsGroup"></g>
-        <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-100 animate-ping" />
+        
+        <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-0" />
         <circle id="focalPoint" cx="-100" cy="-100" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" class="pointer-events-none transition-all duration-500 shadow-xl opacity-0" />
       </svg>
     </div>
 
-    <!-- ZOOM BUTTONS: Links platziert, immer sichtbar -->
+    <!-- ZOOM BUTTONS -->
     <div class="zoom-controls">
       <button id="zoomInBtn" class="zoom-btn" title="Vergrößern (+)">+</button>
       <button id="zoomOutBtn" class="zoom-btn" title="Verkleinern (−)">−</button>
@@ -766,7 +783,7 @@
     let panX = 0;
     let panY = 0;
     const MIN_ZOOM = 0.8;
-    const MAX_ZOOM = 3.8;
+    const MAX_ZOOM = 4.5;
 
     const mapViewport = document.getElementById("mapViewport");
     const pinsGroup = document.getElementById("pinsGroup");
@@ -807,21 +824,21 @@
     const footerStationPreview = document.getElementById("footerStationPreview");
 
     function applyTransform(smooth = true) {
-      mapViewport.style.transition = smooth ? "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)" : "none";
+      mapViewport.style.transition = smooth ? "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)" : "none";
       mapViewport.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
     }
 
-    function setZoom(newZoom, centerX = window.innerWidth / 2, centerY = window.innerHeight / 2) {
+    function setZoom(newZoom, cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2) {
       const clamped = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, newZoom));
       if (clamped === zoomLevel) return;
 
       const rect = mapViewport.getBoundingClientRect();
-      const mouseX = centerX - rect.left;
-      const mouseY = centerY - rect.top;
+      const currentOriginX = cursorX - rect.left;
+      const currentOriginY = cursorY - rect.top;
 
-      const factor = clamped / zoomLevel;
-      panX -= (mouseX - mouseX / factor) * (zoomLevel / clamped);
-      panY -= (mouseY - mouseY / factor) * (zoomLevel / clamped);
+      const scaleChange = clamped / zoomLevel;
+      panX -= (currentOriginX - currentOriginX / scaleChange) * (zoomLevel / clamped);
+      panY -= (currentOriginY - currentOriginY / scaleChange) * (zoomLevel / clamped);
       zoomLevel = clamped;
 
       applyTransform(true);
@@ -867,11 +884,13 @@
 
       STATIONS.forEach((st, idx) => {
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", "station-pin-group");
         g.setAttribute("id", `map-pin-${idx}`);
         g.setAttribute("transform", `translate(${st.coords.x}, ${st.coords.y})`);
 
         g.innerHTML = `
-          <circle r="16" class="pin-halo" />
+          <circle r="18" class="station-pin-hit" />
+          <circle r="15" class="pin-halo" />
           <circle r="10" class="station-pin-bg" />
           <text class="station-pin-text" y="0.5">${idx + 1}</text>
         `;
@@ -915,10 +934,16 @@
       const noteAnchorX = isMobile ? 550 : 700;
       const noteAnchorY = isMobile ? 120 : 180;
 
-      const midControlX = (noteAnchorX + targetX) / 2 - 40;
-      const midControlY = (noteAnchorY + targetY) / 2 - 30;
+      const dx = targetX - noteAnchorX;
+      const dy = targetY - noteAnchorY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const stopX = targetX - (dx / dist) * 12;
+      const stopY = targetY - (dy / dist) * 12;
 
-      const pathData = `M ${noteAnchorX},${noteAnchorY} Q ${midControlX},${midControlY} ${targetX},${targetY}`;
+      const midControlX = (noteAnchorX + targetX) / 2 - 35;
+      const midControlY = (noteAnchorY + targetY) / 2 - 25;
+
+      const pathData = `M ${noteAnchorX},${noteAnchorY} Q ${midControlX},${midControlY} ${stopX},${stopY}`;
       stickyPointerArrow.setAttribute("d", pathData);
     }
 
@@ -990,9 +1015,9 @@
 
         if (pin) {
           if (idx === index) {
-            pin.setAttribute("class", "cursor-pointer scale-125 station-pin-active");
+            pin.setAttribute("class", "station-pin-group station-pin-active");
           } else {
-            pin.setAttribute("class", "cursor-pointer");
+            pin.setAttribute("class", "station-pin-group");
           }
         }
 
@@ -1080,10 +1105,11 @@
       }
     });
 
+    // MAUSRAD / TRACKPAD: NACH UNTEN = ZOOM-IN, NACH OBEN = ZOOM-OUT
     const mainScreen = document.querySelector("main");
     mainScreen.addEventListener("wheel", (e) => {
       e.preventDefault();
-      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      const zoomFactor = e.deltaY > 0 ? 1.12 : 0.88;
       setZoom(zoomLevel * zoomFactor, e.clientX, e.clientY);
     }, { passive: false });
 
