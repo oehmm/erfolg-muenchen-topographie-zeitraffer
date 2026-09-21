@@ -5,56 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lion Feuchtwanger: Erfolg – Abstrakte München-Karte & Zeitraffer</title>
   <script src="https://cdn.tailwindcss.com"></script>
- /* --- Spezielles Responsive-Design für Mobilgeräte (Handys) --- */
-@media (max-width: 640px) {
-  /* 1. Haupt-Notizkarte verkleinern und am oberen Bildschirmrand fixieren */
-  .note-card, 
-  #info-overlay, 
-  [class*="cyan-note"],
-  .station-card {
-    max-width: 88vw !important;
-    width: auto !important;
-    max-height: 38vh !important;
-    padding: 10px 14px !important;
-    font-size: 11px !important;
-    line-height: 1.35 !important;
-    top: 12px !important;
-    right: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
-  }
-
-  /* 2. Überschriften auf dem Zettel kompakter machen */
-  .note-card h1, .note-card h2, .note-card h3,
-  .station-card h1, .station-card h2, .station-card h3 {
-    font-size: 13px !important;
-    margin-bottom: 4px !important;
-    line-height: 1.2 !important;
-  }
-
-  /* 3. Metadaten (Buch/Kapitel, Adresse) verkleinern */
-  .note-meta, .station-meta, .badge {
-    font-size: 9px !important;
-    padding: 2px 6px !important;
-    margin-bottom: 4px !important;
-  }
-
-  /* 4. Fließtext & Figurenschlüssel kürzen / kompakter halten */
-  .note-body, .station-desc {
-    font-size: 10.5px !important;
-    margin-top: 4px !important;
-  }
-
-  /* 5. Steuerungsleiste unten für Daumenbedienung optimieren */
-  .timeline-controls, #controls-bar {
-    padding: 6px 12px !important;
-    gap: 8px !important;
-    bottom: 8px !important;
-  }
-}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -86,14 +36,14 @@
       font-family: 'Caveat', cursive;
     }
 
-    /* Museum gallery projection screen surface mimicking the reference photograph */
+    /* Museum gallery projection screen surface */
     .projection-screen-board {
       background: radial-gradient(circle at 48% 46%, #333d4e 0%, #242c3b 45%, #181d27 85%, #121620 100%);
       box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.75), 0 25px 60px -15px rgba(0,0,0,0.8);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Cyan Sticky Notes matching the photo: bright cyan background, layered stack, realistic drop shadows */
+    /* Cyan Sticky Notes matching the photo projection */
     .cyan-sticky-note {
       background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #03253b;
@@ -112,10 +62,9 @@
     .cyan-sticky-ghost {
       background: rgba(14, 165, 233, 0.22);
       border: 1px dashed rgba(56, 189, 248, 0.45);
-      backdrop-blur-sm: 4px;
     }
 
-    /* Crisp white vector map lines as projected in the reference image */
+    /* Crisp white vector map lines as projected */
     .map-river {
       stroke: #38bdf8;
       stroke-opacity: 0.9;
@@ -150,23 +99,17 @@
       opacity: 0.72;
     }
 
-    .map-sub-mesh {
-      stroke: #94a3b8;
-      stroke-width: 0.65;
-      stroke-dasharray: 3, 2;
-      fill: none;
-      opacity: 0.45;
-    }
-
     /* Custom range slider */
     input[type=range] {
       -webkit-appearance: none;
+      appearance: none;
       background: #334155;
       height: 5px;
       border-radius: 9999px;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
+      appearance: none;
       height: 18px;
       width: 18px;
       border-radius: 50%;
@@ -179,12 +122,63 @@
     input[type=range]::-webkit-slider-thumb:hover {
       transform: scale(1.25);
     }
+
+    /* --- Responsive-Optimierung für Mobilgeräte --- */
+    @media (max-width: 640px) {
+      #stickyNoteContainer {
+        top: 8px !important;
+        right: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 92vw !important;
+        max-width: 390px !important;
+      }
+
+      #mainStickyCard {
+        padding: 10px 12px !important;
+        max-height: 40vh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #cardLocationName {
+        font-size: 15px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 2px !important;
+      }
+
+      #cardAddress {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+      }
+
+      #cardDescription {
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+        margin-bottom: 6px !important;
+      }
+
+      #cardCharacters span {
+        font-size: 9.5px !important;
+        padding: 1px 4px !important;
+      }
+
+      #cardHistoricalKey {
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
+      }
+
+      footer {
+        height: 76px !important;
+        padding: 8px 12px !important;
+      }
+    }
   </style>
 </head>
 <body class="w-screen h-screen flex flex-col justify-between p-2 md:p-4 bg-slate-950">
 
   <!-- TOP HEADER: Museum Exhibition Banner -->
-  <header class="w-full h-14 px-4 md:px-6 rounded-xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center justify-between z-30 shadow-lg">
+  <header class="w-full h-14 px-4 md:px-6 rounded-xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center justify-between z-30 shadow-lg shrink-0">
     <div class="flex items-center gap-3">
       <div class="w-3 h-3 rounded-full bg-sky-400 animate-pulse shadow-[0_0_12px_#38bdf8]"></div>
       <div>
@@ -192,7 +186,7 @@
           <span>ERFOLG</span>
           <span class="text-[10px] md:text-xs font-mono-code px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800/60 font-normal">München 1921–1924</span>
         </h1>
-        <p class="text-[10px] md:text-xs text-slate-400 truncate max-w-xs md:max-w-md">Topographie des Justiz- & Gesellschaftsromans von Lion Feuchtwanger</p>
+        <p class="text-[10px] md:text-xs text-slate-400 truncate max-w-xs md:max-w-md">Topographie des Romans von Lion Feuchtwanger</p>
       </div>
     </div>
 
@@ -204,11 +198,11 @@
       </div>
       <div class="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-2">
         <span class="text-slate-500 uppercase tracking-widest text-[10px]">Station:</span>
-        <span id="stationIndexBadge" class="text-white font-bold">1 / 18</span>
+        <span id="stationIndexBadge" class="text-white font-bold">1 / 19</span>
       </div>
     </div>
 
-    <!-- Control Actions: View Reset, Audio Sound, Book Filter -->
+    <!-- Control Actions -->
     <div class="flex items-center gap-2">
       <button id="toggleAudioAtmosphere" class="px-3 py-1.5 rounded-lg text-xs font-mono-code bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 transition flex items-center gap-1.5">
         <span id="audioStatusDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
@@ -227,12 +221,10 @@
     <div id="mapViewport" class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-700 ease-out flex items-center justify-center">
       <svg id="munichSvgMap" viewBox="0 0 1100 850" class="w-full h-full select-none" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <!-- Dynamic Arrowhead marker for curved indicator arrow -->
           <marker id="cyanArrowHead" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
             <path d="M 0 1.5 L 6 4.5 L 0 7.5 z" fill="#38bdf8" />
           </marker>
 
-          <!-- Radial focal point glow -->
           <radialGradient id="focalBeaconGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
             <stop offset="40%" stop-color="#0284c7" stop-opacity="0.35"/>
@@ -240,7 +232,7 @@
           </radialGradient>
         </defs>
 
-        <!-- SUBTLE BLUEPRINT GRID (Museum backdrop) -->
+        <!-- BLUEPRINT GRID -->
         <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
           <path d="M 0,100 H 1100 M 0,200 H 1100 M 0,300 H 1100 M 0,400 H 1100 M 0,500 H 1100 M 0,600 H 1100 M 0,700 H 1100 M 0,800 H 1100" />
           <path d="M 100,0 V 850 M 200,0 V 850 M 300,0 V 850 M 400,0 V 850 M 500,0 V 850 M 600,0 V 850 M 700,0 V 850 M 800,0 V 850 M 900,0 V 850 M 1000,0 V 850" />
@@ -248,134 +240,73 @@
 
         <!-- WATERWAYS: ISAR & CANALS -->
         <g id="waterSystem">
-          <!-- Main Isar stream curving through Munich -->
           <path class="map-river" stroke-width="8" d="M 320,860 C 370,770 420,710 470,640 C 510,580 525,520 565,450 C 600,380 655,310 700,210 C 740,130 790,60 840,-20" />
-          <!-- Small Isar arm / Museumsinsel -->
           <path class="map-river" stroke-width="3.5" d="M 505,600 C 535,550 550,500 580,455 C 610,405 650,340 685,270" />
-          <!-- Eisbach in Englischer Garten -->
           <path class="map-river" stroke-width="2.5" d="M 590,410 C 615,360 640,290 665,180 C 685,110 720,40 750,-20" />
         </g>
 
-        <!-- ALTSTADT INNER PERIMETER & HISTORIC GATE RING -->
+        <!-- ALTSTADT INNER PERIMETER -->
         <g id="altstadtCore">
-          <!-- Altstadt perimeter ring (Karlsplatz/Stachus, Sendlinger Tor, Isartor, Odeonsplatz) -->
           <path class="map-artery-ring" d="M 470,470 C 455,405 485,355 550,345 C 615,345 640,385 625,455 C 605,505 575,540 520,535 C 480,530 475,500 470,470 Z" />
-          <!-- Neuhauser / Kaufingerstraße / Marienplatz / Tal -->
           <path class="map-artery-primary" d="M 475,445 L 540,448 L 585,455 L 615,485" />
-          <!-- Theatinerstraße / Weinstraße -->
           <path class="map-artery-primary" d="M 540,448 L 548,395 L 555,350" />
-          <!-- Sendlinger Straße -->
           <path class="map-artery-primary" d="M 540,448 L 510,495 L 490,525" />
         </g>
 
-        <!-- PRIMARY RADIAL ARTERIES (Schematic as projected in photograph) -->
+        <!-- PRIMARY RADIAL ARTERIES -->
         <g id="arteries">
-          <!-- Ludwigstraße -> Siegestor -> Leopoldstraße northwards (Schwabing axis) -->
           <path class="map-artery-primary" stroke-width="2.6" d="M 555,350 L 570,240 L 585,130 L 600,0" />
-
-          <!-- Brienner Straße -> Karolinenplatz -> Königsplatz -> Stiglmaierplatz -->
           <path class="map-artery-primary" stroke-width="2.2" d="M 555,350 L 475,340 L 395,330 L 310,315" />
-
-          <!-- Sonnenstraße / Sendlinger Tor Platz / Müllerstraße -->
           <path class="map-artery-primary" d="M 475,370 L 468,430 L 485,510 L 530,555" />
-
-          <!-- Maximilianstraße towards Maxmonument -->
           <path class="map-artery-primary" d="M 555,420 L 625,422 L 690,428 L 785,435" />
-
-          <!-- Prinzregentenstraße towards Friedensengel -->
           <path class="map-artery-primary" d="M 580,350 L 660,350 L 740,355 L 840,360" />
-
-          <!-- Widenmayerstraße / Steinsdorfstraße along Isar quay -->
           <path class="map-artery-primary" d="M 615,440 C 630,385 668,310 705,230" />
           <path class="map-artery-primary" d="M 610,485 L 575,525 L 550,570" />
-
-          <!-- Rosenheimer Straße (Haidhausen) -->
           <path class="map-artery-primary" d="M 615,500 L 700,545 L 800,595 L 910,655" />
-
-          <!-- Lindwurmstraße towards Sendling -->
           <path class="map-artery-primary" d="M 490,525 L 450,605 L 405,700 L 365,800" />
-
-          <!-- Bayerstraße towards Hauptbahnhof -->
           <path class="map-artery-primary" d="M 470,440 L 395,440 L 290,440 L 160,440" />
-
-          <!-- Nymphenburger Straße -->
           <path class="map-artery-primary" d="M 355,370 L 275,340 L 180,295 L 90,250" />
         </g>
 
-        <!-- DETAILED WHITE STREET MESH (Directly matching reference photograph) -->
+        <!-- DETAILED WHITE STREET MESH -->
         <g id="secondaryGrid" class="map-street-mesh">
-          <!-- Schwabing District Grid (Feilitzschstr., Seestraße, Pündterplatz, Kaiserplatz) -->
           <path d="M 520,180 H 650 M 510,220 H 670 M 530,260 H 660 M 500,140 H 640 M 515,100 H 635" />
           <path d="M 520,110 V 290 M 550,90 V 300 M 610,80 V 300 M 640,110 V 300" />
-          <path d="M 510,160 Q 575,195 650,150" />
-          <path d="M 530,205 L 565,245 L 610,205" />
-
-          <!-- Maxvorstadt Grid (Gabelsbergerstr., Theresienstr., Schellingstr., Amalienstr.) -->
           <path d="M 400,260 H 565 M 390,285 H 560 M 380,310 H 555 M 370,335 H 545" />
           <path d="M 420,240 V 365 M 460,245 V 365 M 500,250 V 360 M 530,250 V 355" />
-
-          <!-- Altstadt inner dense street network -->
           <path d="M 490,400 L 528,395 L 522,425 M 565,390 L 590,405 L 575,440 M 510,465 L 532,480 L 500,500" />
-          <path d="M 530,410 L 562,415 M 515,440 L 538,445 L 560,460" />
-
-          <!-- Lehel & Isarvorstadt (Gärtnerplatz, Rumfordstraße, Dreifaltigkeitsplatz) -->
           <path d="M 580,470 L 558,510 L 585,535 L 612,500 Z" />
           <path d="M 520,505 L 538,540 L 505,562 L 490,525" />
-          <path d="M 558,510 L 532,542 M 580,540 L 552,578" />
-          <path d="M 625,370 L 668,385 L 658,420 M 642,430 L 690,450" />
-
-          <!-- Haidhausen / Au (Mariahilfplatz / Dult, Bürgerbräukeller) -->
           <path d="M 630,510 C 662,520 688,552 698,595" />
           <path d="M 650,545 L 622,582 L 645,622 L 688,598 Z" />
-          <path d="M 618,582 L 582,642 L 618,685 L 662,642" />
-          <path d="M 690,500 L 755,520 L 738,575 L 680,548" />
-
-          <!-- Sendling & South Axis -->
           <path d="M 432,635 L 495,655 L 472,718 L 410,688" />
-          <path d="M 380,725 L 452,748 L 430,800 L 360,778" />
-          <path d="M 472,605 C 515,625 538,678 548,740" />
-
-          <!-- West / Schwanthalerhöhe (Theresienwiese / Deutsches Theater) -->
           <path d="M 350,460 C 350,522 412,555 412,492 Z" stroke-dasharray="2,2" />
-          <path d="M 320,460 H 465 M 310,492 H 455 M 300,525 H 445" />
-          <path d="M 350,440 V 545 M 390,440 V 555 M 432,440 V 545" />
         </g>
 
         <!-- TOPOGRAPHICAL DISTRICT LABELS -->
         <g id="districtLabels" opacity="0.4" fill="#f8fafc" class="font-mono-code text-[11px] tracking-widest font-semibold uppercase">
           <text x="590" y="105">Schwabing</text>
-          <text x="430" y="265">Maxvorstadt</text>
+          <text x="410" y="270">Maxvorstadt</text>
           <text x="510" y="420" fill="#38bdf8">Altstadt</text>
           <text x="660" y="380">Lehel</text>
           <text x="710" y="530">Haidhausen</text>
           <text x="625" y="640">Au (Dult)</text>
           <text x="390" y="660">Sendling</text>
           <text x="700" y="180">Englischer Garten</text>
-          <text x="300" y="455">Hbf</text>
         </g>
 
-        <!-- DYNAMIC TRAJECTORY PATH: Connects chronological novel stations -->
         <path id="routeTrajectory" d="" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,3" opacity="0.75" />
-
-        <!-- DYNAMIC POINTER ARROW (Connecting the Cyan Sticky Note to the Map Node) -->
         <path id="stickyPointerArrow" d="" fill="none" stroke="#38bdf8" stroke-width="2.4" marker-end="url(#cyanArrowHead)" class="transition-all duration-500 ease-out opacity-90" />
-
-        <!-- SVG PINS (Rendered via JS) -->
         <g id="pinsGroup"></g>
-
-        <!-- ACTIVE FOCAL BEACON PULSE -->
         <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-0" />
         <circle id="focalPoint" cx="-100" cy="-100" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" class="pointer-events-none transition-all duration-500 shadow-xl opacity-0" />
       </svg>
     </div>
 
-    <!-- FLOATING STACKED CYAN POST-IT NOTES (Faithful to photo projection) -->
+    <!-- FLOATING STACKED CYAN POST-IT NOTES -->
     <div id="stickyNoteContainer" class="absolute top-6 right-6 md:right-12 w-80 sm:w-96 z-20 pointer-events-auto select-text">
-      
-      <!-- STACK LAYER 3 (Background Tilt) -->
       <div class="absolute -bottom-5 -left-5 w-full h-full cyan-sticky-ghost rounded-sm -z-20 transform -rotate-3 transition-transform duration-500"></div>
 
-      <!-- STACK LAYER 2: Character / Actor Sub-Card (Just like "Mitglieder:" card in photo) -->
       <div id="subStickyCard" class="absolute -bottom-2.5 -left-2.5 w-full h-full cyan-sticky-sub rounded-sm -z-10 transform -rotate-1 p-5 text-xs font-mono-code transition-all duration-500 flex flex-col justify-end">
         <div class="border-t border-sky-400/30 pt-2 flex items-center justify-between text-[11px] text-sky-200">
           <span class="uppercase tracking-widest text-[10px] opacity-75">Beteiligte Akteure</span>
@@ -383,85 +314,71 @@
         </div>
       </div>
 
-      <!-- STACK LAYER 1: MAIN ACTIVE CYAN NOTE (Pündterplatz / Address style from photo) -->
+      <!-- MAIN ACTIVE CYAN NOTE -->
       <div id="mainStickyCard" class="cyan-sticky-note rounded-sm p-5 sm:p-6 relative">
-        
-        <!-- Header: Year & Chapter (Handwritten style touch) -->
         <div class="flex items-center justify-between border-b border-sky-950/20 pb-2 mb-3">
           <div class="flex items-center gap-2">
             <span class="text-2xl font-handwriting font-bold leading-none text-sky-950 tracking-wider" id="cardYear">1921</span>
             <span class="w-1.5 h-1.5 rounded-full bg-sky-950/70"></span>
-            <span class="text-[11px] font-mono-code uppercase tracking-wider font-semibold opacity-85" id="cardStationBadge">Station 1 / 18</span>
+            <span class="text-[11px] font-mono-code uppercase tracking-wider font-semibold opacity-85" id="cardStationBadge">Station 1 / 19</span>
           </div>
           <span class="text-[10px] font-mono-code px-2 py-0.5 rounded bg-sky-950/15 font-bold uppercase tracking-wider" id="cardBookBadge">1. Buch</span>
         </div>
 
-        <!-- Location / Station Title -->
         <h2 id="cardLocationName" class="text-xl sm:text-2xl font-serif-title font-bold leading-snug mb-1.5 text-sky-950">
-          Staatsgalerie & Katharinenstraße 94
+          Staatsgalerie & Galerie Novodny
         </h2>
 
-        <!-- Address & Munich District -->
         <div id="cardAddress" class="text-xs font-mono-code font-bold tracking-wide text-sky-900 mb-3 flex items-center gap-1.5">
           <svg class="w-3.5 h-3.5 inline-block opacity-80 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          <span class="truncate">Brienner Straße / Katharinenstraße 94</span>
+          <span class="truncate">Königsplatz / Brienner Straße (Maxvorstadt)</span>
         </div>
 
-        <!-- Novel Excerpt / Scene Narrative -->
         <p id="cardDescription" class="text-sm leading-relaxed text-sky-950/95 font-medium mb-3.5 font-serif-title text-base line-clamp-4 hover:line-clamp-none transition-all">
-          Subdirektor Dr. Martin Krüger hängt das aufrührerische Gemälde „Josef und seine Brüder“ (Franz Landholzer) in Saal VI auf. Die bayerische Justiz inszeniert um die Droschkenfahrt der Februarnacht den Meineid-Prozess.
+          Subdirektor Dr. Martin Krüger lässt in Saal VI das Bild »Josef und seine Brüder« aufhängen. In der Galerie Novodny kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider.
         </p>
 
-        <!-- Characters Chips (Mimics the overlapping name tags in reference photo) -->
         <div class="border-t border-sky-950/20 pt-2.5 mb-2.5">
           <div class="text-[10px] font-mono-code uppercase tracking-wider font-bold text-sky-950/70 mb-1.5">Figuren (Roman):</div>
           <div id="cardCharacters" class="flex flex-wrap gap-1.5 text-xs font-mono-code">
             <span class="px-2 py-0.5 rounded bg-white/50 text-sky-950 font-bold">Dr. Martin Krüger</span>
-            <span class="px-2 py-0.5 rounded bg-white/40 text-sky-950">Johanna Krain</span>
-            <span class="px-2 py-0.5 rounded bg-white/40 text-sky-950">Chauffeur Ratzenberger</span>
+            <span class="px-2 py-0.5 rounded bg-white/40 text-sky-950">Paul Hessreiter</span>
+            <span class="px-2 py-0.5 rounded bg-white/40 text-sky-950">Galerist Novodny</span>
           </div>
         </div>
 
-        <!-- Historical Key Note -->
         <div class="text-[11px] font-sans text-sky-950/85 border-t border-sky-950/15 pt-2 flex items-start gap-1">
           <span class="font-bold font-mono-code text-[10px] uppercase opacity-75 shrink-0">Historischer Schlüssel:</span>
-          <span id="cardHistoricalKey" class="italic text-[11px] leading-tight">Krüger = Felix Fechenbach / Ernst Toller; Gemälde = Allegorie revolutionärer Kunst</span>
+          <span id="cardHistoricalKey" class="italic text-[11px] leading-tight">Krüger = Felix Fechenbach / Ernst Toller; Greiderer = Georg Schrimpf</span>
         </div>
       </div>
     </div>
 
-    <!-- QUICK STATION LIST DRAWER (Desktop Left Panel) -->
+    <!-- QUICK STATION LIST DRAWER -->
     <div class="absolute top-4 left-4 hidden lg:block w-72 max-h-[calc(100%-32px)] overflow-y-auto pr-2 z-20 scrollbar-thin scrollbar-thumb-slate-700 select-none">
       <div class="text-xs font-mono-code text-slate-400 uppercase tracking-widest px-2 py-1 mb-2 flex items-center justify-between bg-slate-900/60 rounded backdrop-blur">
         <span>Stationen Chronik</span>
         <span class="text-sky-400 font-bold">1921–1924</span>
       </div>
-      <div id="stationsListContainer" class="space-y-1.5">
-        <!-- Injected via JavaScript -->
-      </div>
+      <div id="stationsListContainer" class="space-y-1.5"></div>
     </div>
 
   </main>
 
-  <!-- BOTTOM TIMELAPSE SCRUBBER & PLAYBACK CONTROLLER -->
-  <footer class="w-full h-24 px-4 md:px-6 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md flex flex-col justify-center gap-2 z-30 shadow-lg">
-    <!-- Range Slider Bar with Year Milestones -->
+  <!-- BOTTOM TIMELAPSE CONTROLLER -->
+  <footer class="w-full h-24 px-4 md:px-6 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md flex flex-col justify-center gap-2 z-30 shadow-lg shrink-0">
     <div class="w-full flex items-center gap-3 md:gap-5">
       <span class="text-xs font-mono-code text-sky-400 font-bold w-12 text-left">1921</span>
       <div class="relative flex-1 flex items-center">
-        <input id="timelineSlider" type="range" min="0" max="17" value="0" step="1" class="w-full cursor-pointer z-10" aria-label="Zeitraffer Schieberegler">
-        <!-- Progress ticks -->
-        <div id="sliderTicks" class="absolute w-full flex justify-between px-1 pointer-events-none opacity-35">
-          <!-- Injected via JS -->
-        </div>
+        <input id="timelineSlider" type="range" min="0" max="18" value="0" step="1" class="w-full cursor-pointer z-10" aria-label="Zeitraffer Schieberegler">
+        <div id="sliderTicks" class="absolute w-full flex justify-between px-1 pointer-events-none opacity-35"></div>
       </div>
       <span class="text-xs font-mono-code text-sky-400 font-bold w-12 text-right">1924</span>
     </div>
 
-    <!-- Control Buttons and Station Preview -->
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <button id="prevStationBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition border border-slate-700 active:scale-95" title="Vorherige Station (Pfeil links)">
@@ -478,22 +395,20 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
 
-        <!-- Speed Selector -->
         <div class="ml-2 md:ml-4 flex items-center gap-2">
           <span class="hidden sm:inline text-xs text-slate-400 font-mono-code">Tempo:</span>
           <select id="speedSelect" class="bg-slate-950 border border-slate-700 text-xs font-mono-code rounded-lg px-2 py-1.5 text-slate-200 focus:outline-none focus:border-sky-400">
-            <option value="4200">1x (Langsamer Rundgang)</option>
+            <option value="4200">1x (Rundgang)</option>
             <option value="2600" selected>1.5x (Normal)</option>
             <option value="1500">2.5x (Zeitraffer)</option>
           </select>
         </div>
       </div>
 
-      <!-- Current Scene Quick Indicator -->
       <div class="hidden md:flex items-center gap-2 max-w-sm truncate text-xs font-mono-code text-slate-300">
         <span class="text-slate-500 uppercase text-[10px]">Ort:</span>
         <span id="footerStationPreview" class="text-sky-300 truncate font-semibold bg-slate-950 px-2.5 py-1 rounded border border-slate-800">
-          Brienner Straße / Katharinenstraße 94
+          Königsplatz / Brienner Straße
         </span>
       </div>
     </div>
@@ -501,240 +416,253 @@
 
   <script>
     /**
-     * TOPOGRAPHY DATASET DER HISTORISCHEN STATIONEN AUS LION FEUCHTWANGERS "ERFOLG" (BÜCHER 1 - 5)
-     * Koordinaten präzise referenziert auf das SVG-Planquadrat von München (1100 x 850).
+     * TOPOGRAPHISCHER DATENSATZ AUS LION FEUCHTWANGERS "ERFOLG" (BÜCHER 1 - 5)
+     * Station 1 (Brienner Str.) und Station 2 (Katharinenstr.) sind sauber getrennt.
      */
     const STATIONS = [
       {
         id: "st-1",
         year: "1921",
         book: "1. Buch: Justiz",
-        chapter: "Kap. 1 & 6: Josef und seine Brüder / Katharinenstr. 94",
-        name: "Staatsgalerie & Katharinenstraße 94",
-        address: "Brienner Straße / Katharinenstraße 94 (Maxvorstadt)",
-        coords: { x: 475, y: 340 },
-        desc: "Subdirektor Dr. Martin Krüger hängt das aufrührerische Gemälde „Josef und seine Brüder“ (Franz Landholzer) in Saal VI auf. Der Meineid-Prozess nimmt seinen Anfang um die nächtliche Droschkenfahrt zur Katharinenstraße 94.",
-        characters: ["Dr. Martin Krüger", "Anna Elisabeth Haider", "Chauffeur Ratzenberger"],
-        histKey: "Krüger = Felix Fechenbach / Ernst Toller; Gemälde = Allegorie revolutionärer Kunst.",
-        subQuote: "„Josef und seine Brüder oder: Gerechtigkeit“"
+        chapter: "Kap. 1 & 5: Josef und seine Brüder / Herr Hessreiter demonstriert",
+        name: "Staatsgalerie & Galerie Novodny",
+        address: "Königsplatz / Brienner Straße (Maxvorstadt)",
+        coords: { x: 440, y: 340 },
+        desc: "In der Staatsgalerie hängt Martin Krüger das Gemälde »Josef und seine Brüder« von Franz Landholzer auf[cite: 2]. In der Galerie Novodny an der Brienner Straße kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].",
+        characters: ["Dr. Martin Krüger", "Paul Hessreiter", "Galerist Novodny"],
+        histKey: "Krüger = Felix Fechenbach / Ernst Toller; Greiderer = Georg Schrimpf.",
+        subQuote: "„Josef und seine Brüder & Galerie Novodny“"
       },
       {
         id: "st-2",
+        year: "Februar 1920 / Juni 1921",
+        book: "1. Buch: Justiz",
+        chapter: "Kap. 3 & 6: Das Haus Katharinenstraße 94 sagt aus",
+        name: "Atelierwohnung Haider (Katharinenstraße 94)",
+        address: "Katharinenstraße 94 (nahe Sendlinger Tor)",
+        coords: { x: 520, y: 490 },
+        desc: "Der Tatort des angeblichen Meineids: Droschkenfahrt von der Widenmayerstraße zur Katharinenstraße 94[cite: 2]. Chauffeur Ratzenberger schwört, Krüger sei um 2 Uhr nachts mit Anna Elisabeth Haider ins Haus gegangen[cite: 2].",
+        characters: ["Anna Elisabeth Haider", "Dr. Martin Krüger", "Chauffeur Ratzenberger", "Hofrätin Beradt"],
+        histKey: "Ratzenberger = manipulierter Belastungszeuge der bayerischen Justizbehörden[cite: 2].",
+        subQuote: "„Die Droschkenfahrt zur Katharinenstraße 94“"
+      },
+      {
+        id: "st-3",
         year: "Juni 1921",
         book: "1. Buch: Justiz",
         chapter: "Kap. 2: Zwei Minister",
         name: "Tiroler Weinstube",
         address: "Dreifaltigkeitsplatz / nahe Platzl & Hofbräuhaus (Altstadt)",
         coords: { x: 575, y: 460 },
-        desc: "Stammlokal der bayerischen Notabeln. Kultusminister Franz Flaucher triumphiert über Krügers Sturz; Justizminister Dr. Otto Klenk dämpft ihn jovial-brutal mit der Meinung des allmächtigen Bauernführers Dr. Bichler.",
+        desc: "Stammlokal der bayerischen Notabeln[cite: 2]. Kultusminister Flaucher triumphiert über Krügers Sturz; Justizminister Otto Klenk dämpft ihn jovial mit der Haltung des Bauernführers Dr. Bichler[cite: 2].",
         characters: ["Dr. Otto Klenk", "Dr. Franz Flaucher", "Kellnerin Zenzi"],
-        histKey: "Flaucher = Gustav von Kahr; Klenk = Christian Roth; Bichler = Georg Heim (BVP).",
+        histKey: "Flaucher = Gustav von Kahr; Klenk = Christian Roth; Bichler = Georg Heim (BVP)[cite: 2].",
         subQuote: "„Zwei Minister bei Wein und Radi“"
       },
       {
-        id: "st-3",
+        id: "st-4",
         year: "Juni 1921",
         book: "1. Buch: Justiz",
         chapter: "Kap. 3 & 5: Siegestor, Universität & Seestraße",
-        name: "Siegestor & Galerie Novodny",
-        address: "Ludwigstraße / Siegestor / Brienner Str. (Galerie Novodny)",
+        name: "Siegestor & Ludwigstraße",
+        address: "Ludwigstraße / Siegestor (Schwabing-Grenze)",
         coords: { x: 570, y: 240 },
-        desc: "Kommerzienrat Paul Hessreiter spaziert an der Universität vorbei. Als heimliche Demonstration gegen die spießbürgerliche Justiz kauft er in der Galerie Novodny mutig das nackte Selbstporträt der toten Malerin Haider.",
-        characters: ["Paul Hessreiter", "Katharina von Radolny", "Galerist Novodny"],
-        histKey: "Hessreiter = Typus des liberalen Großbürgers & Mäzens; Haider = Schlawinertum.",
+        desc: "Kommerzienrat Paul Hessreiter spaziert an der Universität und den Löwen des Siegestors vorbei[cite: 2]. Er beobachtet die verrohende studentische Jugend und sinnt über die Entgleisung seiner Stadt nach[cite: 2].",
+        characters: ["Paul Hessreiter", "Dr. Lorenz Matthäi"],
+        histKey: "Hessreiter = Typus des liberalen Großbürgers; Matthäi = Ludwig Thoma[cite: 2].",
         subQuote: "„Herr Hessreiter demonstriert“"
       },
       {
-        id: "st-4",
+        id: "st-5",
         year: "Juni 1921",
         book: "1. Buch: Justiz",
         chapter: "Kap. 4 & 7: Der Mann in Zelle 134",
         name: "Justizpalast am Karlsplatz (Stachus)",
         address: "Prielmayerstraße / Karlsplatz (Stachus)",
         coords: { x: 465, y: 435 },
-        desc: "Schwurgerichtssaal 3 im Justizpalast: Landgerichtsdirektor Hartl leitet die Verhandlung; Ratzenberger schwört seinen Meineid. Krüger wird zu Zuchthaus verurteilt und durchleidet die Hilflosigkeit in Zelle 134.",
+        desc: "Schwurgerichtssaal 3 im Justizpalast: Landgerichtsdirektor Hartl leitet den Prozess artistisch-willkürlich[cite: 2]. Dr. Geyer verteidigt vergebens; Krüger wird verurteilt und in Zelle 134 gesperrt[cite: 2].",
         characters: ["Landgerichtsdirektor Hartl", "Dr. Siegbert Geyer", "Dr. Martin Krüger"],
-        histKey: "Hartl = reaktionäre Justizkontinuität; Geyer = RA Philipp Löwenfeld / Kurt-Eisner-Kreis.",
+        histKey: "Hartl = reaktionäre Justizkontinuität; Geyer = RA Philipp Löwenfeld / Kurt-Eisner-Kreis[cite: 2].",
         subQuote: "„Schwurgerichtssaal 3 & Zelle 134“"
       },
       {
-        id: "st-5",
+        id: "st-6",
         year: "Juni 1921",
         book: "1. Buch: Justiz",
         chapter: "Kap. 14 & 20: Ein paar Rowdys und ein Herr",
         name: "Wohnung Johanna Krain & Isaranlagen",
         address: "Steinsdorfstraße (an der Isar) / Isar-Brücke",
         coords: { x: 585, y: 520 },
-        desc: "Johanna Krain bezeugt mutig Krügers Alibi. Nach dem Urteil wird sie an den Isaranlagen von rabiaten Burschen bedrängt; Schriftsteller Jacques Tüverlin eilt ihr zu Hilfe und schlägt sich mit ihnen.",
+        desc: "Johanna Krain bezeugt Krügers Alibi[cite: 2]. Nach dem Urteil wird sie an den Isaranlagen von rabiaten Burschen bedrängt; Schriftsteller Jacques Tüverlin eilt ihr zu Hilfe und schlägt sich mit ihnen[cite: 2].",
         characters: ["Johanna Krain", "Jacques Tüverlin", "Tante Ametsrieder"],
-        histKey: "Johanna Krain = Marta Feuchtwanger; Jacques Tüverlin = Alter Ego von Lion Feuchtwanger.",
+        histKey: "Johanna Krain = Marta Feuchtwanger; Jacques Tüverlin = Alter Ego von Lion Feuchtwanger[cite: 2].",
         subQuote: "„Jacques Tüverlin schlägt sich an der Isar“"
       },
       {
-        id: "st-6",
+        id: "st-7",
         year: "Herbst 1921",
         book: "2. Buch: Betrieb",
         chapter: "Kap. 3 & 16: Die Hochzeit von Odelsberg",
         name: "Zuchthaus Odelsberg",
-        address: "Vor den Toren Münchens (Symbolisch Landsberg / Stadelheim)",
+        address: "Vor den Toren Münchens (Landsberg / Stadelheim)",
         coords: { x: 280, y: 680 },
-        desc: "Krüger verbüßt seine Zuchthausstrafe in Odelsberg unter Anstaltsleiter Förtsch. Johanna Krain heiratet Krüger im Zuchthaus, um rechtliche Legitimation für den Wiederaufnahmekampf zu erhalten.",
+        desc: "Krüger verbüßt seine Zuchthausstrafe in Odelsberg unter Anstaltsleiter Förtsch[cite: 2]. Johanna Krain heiratet Krüger im Zuchthaus, um Legitimation für den Wiederaufnahmekampf zu erlangen[cite: 2].",
         characters: ["Martin Krüger", "Johanna Krain", "Oberregierungsrat Förtsch"],
-        histKey: "Odelsberg = Zuchthaus Landsberg am Lech (wo Toller, Fechenbach und später Hitler einsaßen).",
+        histKey: "Odelsberg = Zuchthaus Landsberg am Lech (wo Ernst Toller und Felix Fechenbach einsaßen)[cite: 2].",
         subQuote: "„Die Trauung im Zuchthaus“"
       },
       {
-        id: "st-7",
+        id: "st-8",
         year: "Winter 1921",
         book: "2. Buch: Betrieb",
         chapter: "Kap. 4: Der Fünfte Evangelist",
         name: "Palais Reindl & BKW-Werke",
         address: "Karolinenplatz (Palais Reindl) / Milbertshofen",
         coords: { x: 475, y: 340 },
-        desc: "Andreas von Reindl, Generaldirektor der Bayerischen Kraftfahrzeugwerke (BKW), lenkt hinter den Kulissen Politik und Finanzen. Ingenieur Kaspar Pröckl kündigt trotz Reindls Faszination für seine provokanten Balladen.",
+        desc: "Andreas von Reindl, Generaldirektor der Bayerischen Kraftfahrzeugwerke (BKW), lenkt hinter den Kulissen Politik und Finanzen[cite: 2]. Ingenieur Kaspar Pröckl kündigt trotz Reindls Faszination für seine Balladen[cite: 2].",
         characters: ["Baron Andreas von Reindl", "Kaspar Pröckl"],
-        histKey: "Reindl = Industriemagnat Hugo Stinnes / BMW-Führung; Pröckl = Bertolt Brecht.",
+        histKey: "Reindl = Industriemagnat Hugo Stinnes / BMW-Führung; Pröckl = Bertolt Brecht[cite: 2].",
         subQuote: "„Andreas von Reindl: Der Fünfte Evangelist“"
       },
       {
-        id: "st-8",
+        id: "st-9",
         year: "1922",
         book: "2. Buch: Betrieb",
         chapter: "Kap. 13 & 15: Der Komiker Hierl und sein Volk",
         name: "Minerva-Säle & Restaurant Zum Gaisgarten",
         address: "Müllerstraße (Glockenbachviertel) / Sendling",
         coords: { x: 505, y: 540 },
-        desc: "Der melancholische Volkssänger und Komiker Balthasar Hierl tritt in den Minerva-Sälen auf. Im 'Gaisgarten' erleidet Chauffeur Ratzenberger nach einem Streit den Schlagfluss, beichtet zuvor aber seinen Meineid.",
+        desc: "Der melancholische Volkssänger und Komiker Balthasar Hierl tritt in den Minerva-Sälen auf[cite: 2]. Im 'Gaisgarten' erleidet Chauffeur Ratzenberger den Schlagfluss, beichtet zuvor aber seinen Meineid[cite: 2].",
         characters: ["Balthasar Hierl", "Franz Xaver Ratzenberger", "Ludwig Ratzenberger"],
-        histKey: "Balthasar Hierl = Karl Valentin; Gaisgarten = Treffpunkt völkischer Radikaler.",
+        histKey: "Balthasar Hierl = Karl Valentin; Gaisgarten = Treffpunkt völkischer Radikaler[cite: 2].",
         subQuote: "„Balthasar Hierl & Ratzenbergers Tod“"
       },
       {
-        id: "st-9",
+        id: "st-10",
         year: "Frühjahr 1922",
         book: "2. Buch: Betrieb",
         chapter: "Kap. 17: Der Reliquienschrein des Cajetan Lechner",
         name: "Antiquitätenhandlung Lechner",
         address: "Unteranger (Altstadt / nahe Sendlinger Tor)",
         coords: { x: 495, y: 510 },
-        desc: "Cajetan Lechner, Altmöbelrestaurator und Geschworener, quält sich mit dem Gewissen und verkauft seinen kostbaren gotischen Schrein an einen Holländer, um ein Mietshaus zu erwerben. Tochter Anni liebt Pröckl.",
+        desc: "Cajetan Lechner, Altmöbelrestaurator und Geschworener, verkauft seinen gotischen Schrein an einen Holländer, um ein Mietshaus zu erwerben[cite: 2]. Tochter Anni hält derweil zu Kaspar Pröckl[cite: 2].",
         characters: ["Cajetan Lechner", "Anni Lechner", "Benno Lechner"],
-        histKey: "Schilderung des altbairischen Kleinbürgertums zwischen Antiquitäten, Frömmigkeit und Inflation.",
+        histKey: "Schilderung des altbairischen Kleinbürgertums zwischen Antiquitäten, Frömmigkeit und Inflation[cite: 2].",
         subQuote: "„Der Reliquienschrein am Unteranger“"
       },
       {
-        id: "st-10",
+        id: "st-11",
         year: "Sommer 1922",
         book: "3. Buch: Spaß. Sport. Spiel",
         chapter: "Kap. 3 & 9: Einhundertfünfzig Fleischpuppen",
         name: "Pfaundlers Revuetheater (Deutsches Theater)",
         address: "Schwanthalerstraße (Ludwigsvorstadt)",
         coords: { x: 410, y: 490 },
-        desc: "Alois Pfaundler lässt von Tüverlin die politische Revue 'Kasperl im Klassenkampf' zu 'Höher geht's nimmer' verflachen. 150 nackte Girls defilieren; Balthasar Hierl steigt als bayerischer Stier in die Arena.",
+        desc: "Alois Pfaundler lässt von Tüverlin die Revue 'Kasperl im Klassenkampf' zu 'Höher geht's nimmer' verflachen[cite: 2]. 150 Mädchen defilieren; Hierl tritt als phlegmatischer Stier in der Arena auf[cite: 2].",
         characters: ["Alois Pfaundler", "Jacques Tüverlin", "Olga Insarowa"],
-        histKey: "Pfaundler = Showproduzenten der 20er; Einblick in Inflationshedonismus und Theaterbetrieb.",
+        histKey: "Pfaundler = Showproduzenten der 20er; Einblick in Inflationshedonismus und Theaterbetrieb[cite: 2].",
         subQuote: "„Revue: Höher geht’s nimmer“"
       },
       {
-        id: "st-11",
+        id: "st-12",
         year: "1922 / 1923",
         book: "3. Buch: Spaß. Sport. Spiel",
         chapter: "Kap. 11 & 12: Ein König im Herzen seines Volkes",
         name: "Gasthaus Hundskugel & Rumfordstraße",
         address: "Hotterstraße (Hundskugel) & Rumfordstraße (Wohnung Kutzner)",
         coords: { x: 535, y: 475 },
-        desc: "Kneipe 'Hundskugel': Treffpunkt von Kommunisten um Benno Lechner und Pröckl. In der Rumfordstraße lebt Boxer Alois Kutzner mit Mutter und Onkel Xaver, während sein Bruder Rupert als 'Führer' aufsteigt.",
+        desc: "Kneipe 'Hundskugel': Treffpunkt von Kommunisten um Benno Lechner und Pröckl. In der Rumfordstraße lebt Boxer Alois Kutzner mit Mutter und Onkel Xaver, während Rupert Kutzner als Führer aufsteigt[cite: 3].",
         characters: ["Rupert Kutzner", "Alois Kutzner", "Erich Bornhaak"],
-        histKey: "Rupert Kutzner = Adolf Hitler; Hundskugel = Ältestes Münchner Gasthaus, revolutionärer Brennpunkt.",
+        histKey: "Rupert Kutzner = Adolf Hitler; Hundskugel = Ältestes Münchner Gasthaus[cite: 2].",
         subQuote: "„Rupert Kutzner & Die Hundskugel“"
       },
       {
-        id: "st-12",
+        id: "st-13",
         year: "Herbst 1922",
         book: "3. Buch: Spaß. Sport. Spiel",
         chapter: "Kap. 21: Herr Hessreiter diniert in Berlin",
         name: "Villa Hessreiter (Seestraße)",
         address: "Seestraße (Schwabing am Englischen Garten)",
         coords: { x: 620, y: 200 },
-        desc: "Hessreiters elegantes Biedermeier-Haus voller Masken, Schiffchen und Münchner Antiquitäten. Hier empfängt er Johanna Krain und die Bohème, ehe die Inflation und riskante Kredite ihn zum Ruin treiben.",
+        desc: "Hessreiters Biedermeier-Haus voller Masken, Schiffchen und Antiquitäten[cite: 2, 3]. Hier empfängt er Johanna Krain und die Bohème, ehe Inflation und riskante Kredite ihn bedrängen[cite: 2, 3].",
         characters: ["Paul Hessreiter", "Katharina von Radolny", "Dr. Lorenz Matthäi"],
-        histKey: "Dr. Matthäi = Ludwig Thoma; Repräsentanz der bayerischen Schriftsteller-Honoratioren.",
+        histKey: "Dr. Matthäi = Ludwig Thoma; Repräsentanz der bayerischen Schriftsteller-Honoratioren[cite: 2].",
         subQuote: "„Biedermeier-Kabinett in der Seestraße“"
       },
       {
-        id: "st-13",
+        id: "st-14",
         year: "Januar 1923",
         book: "4. Buch: Politik und Wirtschaft",
         chapter: "Kap. 8 & 9: Noch vor der Baumblüte",
         name: "Feldherrnhalle & Odeonsplatz",
         address: "Odeonsplatz / Brienner Straße (Altstadt-Nord)",
         coords: { x: 555, y: 350 },
-        desc: "Zentrum völkischer Machtdemonstrationen. Kutzner und General Vesemann stilisieren den Ort mit Mahnmalen ('Warenhaus militärischer Wunschträume'). Rufe: 'Noch vor der Baumblüte marschieren wir nach Berlin!'.",
+        desc: "Zentrum völkischer Machtdemonstrationen[cite: 3]. Kutzner und General Vesemann stilisieren den Ort mit Mahnmalen[cite: 3]. Die Menge skandiert: »Noch vor der Baumblüte marschieren wir nach Berlin!«[cite: 3]",
         characters: ["General Vesemann", "Rupert Kutzner", "Landtagsabgeordnete"],
-        histKey: "Vesemann = General Erich Ludendorff; Schauplatz des realen Marsches am 9. Nov. 1923.",
+        histKey: "Vesemann = General Erich Ludendorff; Schauplatz des realen Marsches am 9. Nov. 1923[cite: 2].",
         subQuote: "„Odeonsplatz: Noch vor der Baumblüte!“"
       },
       {
-        id: "st-14",
+        id: "st-15",
         year: "März 1923",
         book: "4. Buch: Politik und Wirtschaft",
         chapter: "Kap. 23: Caliban",
         name: "Forstenrieder Park / Schmerzwiese",
         address: "Südlicher Stadtwald (Forstenried)",
         coords: { x: 330, y: 790 },
-        desc: "Feme-Mord an der Hausgehilfin Amalia Sandhuber. Erich Bornhaak, Ludwig Ratzenberger und Boxer Alois Kutzner fahren das ahnungslose Mädchen in den Wald und erwürgen sie wegen angeblichen Verrats.",
+        desc: "Feme-Mord an der Hausgehilfin Amalia Sandhuber[cite: 3]. Erich Bornhaak, Ludwig Ratzenberger und Boxer Alois Kutzner fahren das ahnungslose Mädchen in den Wald und erwürgen sie[cite: 3].",
         characters: ["Erich Bornhaak", "Amalia Sandhuber", "Alois Kutzner"],
         histKey: "Historischer Feme-Mord an Dienstmädchen Maria Sandmayr (1920) durch völkische Schläger.",
         subQuote: "„Feme-Mord im Forstenrieder Wald“"
       },
       {
-        id: "st-15",
+        id: "st-16",
         year: "Frühjahr 1923",
         book: "4. Buch: Politik und Wirtschaft",
         chapter: "Kap. 32: De profundis",
         name: "Tod Martin Krügers",
         address: "Zuchthaus Odelsberg / Zelle 134",
         coords: { x: 280, y: 680 },
-        desc: "In der überhitzten Zelle stirbt Martin Krüger nachts an Angina Pectoris, wenige Tage bevor die von Tüverlin und Potter erwirkte Begnadigung ihn erreicht. Der Kübel stürzt um; Krüger stirbt im Kot.",
+        desc: "In der überhitzten Zelle stirbt Martin Krüger nachts an Angina Pectoris, wenige Tage bevor die von Tüverlin und Potter erwirkte Begnadigung ihn erreicht[cite: 3]. Der Kübel stürzt um; Krüger stirbt im Kot.",
         characters: ["Martin Krüger", "Wärter Pockorny", "Uhrmacher Triebschener"],
-        histKey: "Kritik an den Todesumständen bayerischer politischer Häftlinge (wie Gustav Landauer, Eugen Leviné).",
+        histKey: "Kritik an den Todesumständen bayerischer politischer Häftlinge (wie Gustav Landauer, Eugen Leviné)[cite: 2, 3].",
         subQuote: "„De profundis: Der Tod in Zelle 134“"
       },
       {
-        id: "st-16",
+        id: "st-17",
         year: "8./9. Nov. 1923",
         book: "5. Buch: Erfolg",
         chapter: "Kap. 5 & 8: Der Kutzner-Putsch",
         name: "Bürgerbräukeller & Marsch zur Feldherrnhalle",
         address: "Rosenheimer Str. (Haidhausen) -> Residenzstraße",
         coords: { x: 670, y: 520 },
-        desc: "Der Kutzner-Putsch (Hitler-Putsch). Kutzner schießt in die Decke des Bürgerbräukellers, nötigt Flaucher zum Schwur. Am 9. November zerschlägt die Landespolizei an der Feldherrnhalle den Marsch. Bornhaak fällt.",
+        desc: "Der Kutzner-Putsch: Kutzner schießt in die Decke des Bürgerbräukellers, nötigt Flaucher zum Schwur. Am 9. November zerschlägt die Landespolizei an der Feldherrnhalle den Marsch. Erich Bornhaak fällt.",
         characters: ["Rupert Kutzner", "Franz Flaucher", "General Vesemann", "Erich Bornhaak"],
         histKey: "Exakte historische Spiegelung des Hitler-Ludendorff-Putsches vom 8./9. November 1923.",
         subQuote: "„Bürgerbräukeller & Zusammenbruch an der Feldherrnhalle“"
       },
       {
-        id: "st-17",
+        id: "st-18",
         year: "Frühjahr 1924",
         book: "5. Buch: Erfolg",
         chapter: "Kap. 12: Der wasserlassende Stier",
         name: "Infanterieschule (Kutzner-Prozess)",
         address: "Blutenburgstraße (Neuhausen / ehem. Kriegsschule)",
         coords: { x: 290, y: 350 },
-        desc: "Farce des Kutzner-Prozesses. Kutzner und Vesemann triumphieren vor einem wohlwollenden Gericht; Flaucher sitzt als gedemütigter Zeuge da ('wasserlassender Stier'). Kutzner erhält Festungshaft mit sofortiger Bewährungschance.",
+        desc: "Farce des Kutzner-Prozesses: Kutzner und Vesemann triumphieren vor einem wohlwollenden Gericht; Flaucher sitzt als gedemütigter Zeuge da. Kutzner erhält milde Festungshaft mit Bewährungschance.",
         characters: ["Rupert Kutzner", "Franz Flaucher", "Maler Greiderer"],
         histKey: "Der historische Hitler-Prozess vor dem Münchener Volksgericht 1924.",
         subQuote: "„Prozess in der Infanterieschule“"
       },
       {
-        id: "st-18",
+        id: "st-19",
         year: "Mai 1924",
         book: "5. Buch: Erfolg",
         chapter: "Kap. 17, 22 & 23: Seid ihr noch alle da?",
         name: "Auer Dult & Vollendung 'Buch Bayern'",
         address: "Mariahilfplatz (Au) / Steinsdorfstraße",
         coords: { x: 630, y: 620 },
-        desc: "Auer Dult: Tüverlin beobachtet das unverwüstliche, selbstreferentielle München ('Kasperl: Seid ihr alle da?'). Johanna bringt den Dokumentarfilm 'Martin Krüger' heraus: 'Die Toten sollen das Maul aufmachen!' Tüverlin vollendet sein 'Buch Bayern'.",
+        desc: "Auer Dult: Tüverlin beobachtet das unverwüstliche München. Johanna bringt den Dokumentarfilm 'Martin Krüger' heraus: 'Die Toten sollen das Maul aufmachen!' Tüverlin vollendet sein 'Buch Bayern'.",
         characters: ["Jacques Tüverlin", "Johanna Krain", "Balthasar Hierl"],
         histKey: "Feuchtwangers Bilanzroman 'Erfolg' (1930) über die Münchener 'Wartesaal'-Jahre.",
         subQuote: "„Auer Dult: Die Toten sollen das Maul aufmachen!“"
@@ -748,7 +676,6 @@
 
     // DOM References
     const mapViewport = document.getElementById("mapViewport");
-    const munichSvgMap = document.getElementById("munichSvgMap");
     const pinsGroup = document.getElementById("pinsGroup");
     const routeTrajectory = document.getElementById("routeTrajectory");
     const stickyPointerArrow = document.getElementById("stickyPointerArrow");
@@ -769,7 +696,6 @@
     const audioStatusDot = document.getElementById("audioStatusDot");
 
     // Sticky Card Elements
-    const stickyNoteContainer = document.getElementById("stickyNoteContainer");
     const mainStickyCard = document.getElementById("mainStickyCard");
     const subCardNovelFigure = document.getElementById("subCardNovelFigure");
     const cardYear = document.getElementById("cardYear");
@@ -791,7 +717,6 @@
         if (!audioContext) {
           audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
-        // Mechanical slide click synthesis
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
         osc.type = "triangle";
@@ -865,12 +790,10 @@
     }
 
     function updatePointerArrow(targetX, targetY) {
-      // Get SVG bounding box and calculate relative coordinates of the sticky note bottom-left
-      // Note is fixed in SVG coordinate space (approx top-right: x: 720, y: 150)
-      const noteAnchorX = 700;
-      const noteAnchorY = 180;
+      const isMobile = window.innerWidth <= 640;
+      const noteAnchorX = isMobile ? 550 : 700;
+      const noteAnchorY = isMobile ? 120 : 180;
 
-      // Create a gentle curved Bézier curve from note corner towards targeted map node (like in photo)
       const midControlX = (noteAnchorX + targetX) / 2 - 40;
       const midControlY = (noteAnchorY + targetY) / 2 - 30;
 
@@ -894,7 +817,6 @@
 
       playProjectorSlideSound();
 
-      // Card flip / fade transition
       mainStickyCard.style.opacity = "0.75";
       mainStickyCard.style.transform = "translateY(4px) scale(0.98)";
 
@@ -925,13 +847,11 @@
         mainStickyCard.style.transform = "translateY(0) scale(1)";
       }, 120);
 
-      // Footer & Badge indicators
       currentPhaseBadge.textContent = st.book;
       stationIndexBadge.textContent = `${index + 1} / ${STATIONS.length}`;
       timelineSlider.value = index;
       footerStationPreview.textContent = `${st.year}: ${st.name} — ${st.address}`;
 
-      // Update Beacon Circle
       focalPulse.setAttribute("cx", st.coords.x);
       focalPulse.setAttribute("cy", st.coords.y);
       focalPulse.setAttribute("class", "pointer-events-none transition-all duration-700 opacity-100 animate-ping");
@@ -940,11 +860,9 @@
       focalPoint.setAttribute("cy", st.coords.y);
       focalPoint.setAttribute("class", "pointer-events-none transition-all duration-500 opacity-100");
 
-      // Update Indicator Arrow & History Trail
       updatePointerArrow(st.coords.x, st.coords.y);
       updateTrajectory(index);
 
-      // Highlight active Pin on SVG & Active list item in sidebar
       STATIONS.forEach((_, idx) => {
         const pin = document.getElementById(`map-pin-${idx}`);
         const sideItem = document.getElementById(`side-station-item-${idx}`);
@@ -991,7 +909,6 @@
         if (currentIndex < STATIONS.length - 1) {
           renderStationIndex(currentIndex + 1);
         } else {
-          // Loop back to start smoothly
           renderStationIndex(0);
         }
       }, speed);
@@ -1050,7 +967,6 @@
       }
     });
 
-    // Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") {
         pauseTimelapse();
@@ -1065,7 +981,6 @@
       }
     });
 
-    // Pan / Drag interaction for SVG Map Canvas
     let isDragging = false;
     let dragStartX = 0;
     let dragStartY = 0;
