@@ -145,7 +145,6 @@
       transform: scale(1.25);
     }
 
-    /* Zoom-Buttons: Links platziert, voll sichtbar und klickbar */
     .zoom-controls {
       position: absolute;
       bottom: 20px;
@@ -356,12 +355,12 @@
         <path id="routeTrajectory" d="" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,3" opacity="0.75" />
         <path id="stickyPointerArrow" d="" fill="none" stroke="#38bdf8" stroke-width="2.4" marker-end="url(#cyanArrowHead)" class="transition-all duration-500 ease-out opacity-90" />
         <g id="pinsGroup"></g>
-        <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-0" />
+        <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-100 animate-ping" />
         <circle id="focalPoint" cx="-100" cy="-100" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" class="pointer-events-none transition-all duration-500 shadow-xl opacity-0" />
       </svg>
     </div>
 
-    <!-- ZOOM BUTTONS: Links platziert, immer sichtbar und klickbar -->
+    <!-- ZOOM BUTTONS: Links platziert, immer sichtbar -->
     <div class="zoom-controls">
       <button id="zoomInBtn" class="zoom-btn" title="Vergrößern (+)">+</button>
       <button id="zoomOutBtn" class="zoom-btn" title="Verkleinern (−)">−</button>
@@ -403,7 +402,7 @@
         </div>
 
         <p id="cardDescription" class="text-sm leading-relaxed text-sky-950/95 font-medium mb-3.5 font-serif-title text-base line-clamp-4 hover:line-clamp-none transition-all">
-          Subdirektor Dr. Martin Krüger lässt in Saal VI das Bild »Josef und seine Brüder« aufhängen[cite: 2]. In der Galerie Novodny kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].
+          Subdirektor Dr. Martin Krüger lässt in Saal VI das Bild »Josef und seine Brüder« aufhängen[cite: 2]. In der Galerie Novodny an der Brienner Straße kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].
         </p>
 
         <div class="border-t border-sky-950/20 pt-2.5 mb-2.5">
@@ -488,7 +487,7 @@
         chapter: "Kap. 1 & 5: Josef und seine Brüder / Herr Hessreiter demonstriert",
         name: "Staatsgalerie & Galerie Novodny",
         address: "Königsplatz / Brienner Straße (Maxvorstadt)",
-        coords: { x: 440, y: 340 },
+        coords: { x: 505, y: 345 }, // Exakt am Königsplatz / Brienner Straße nordwestlich der Altstadt
         desc: "In der Staatsgalerie hängt Martin Krüger das Gemälde »Josef und seine Brüder« von Franz Landholzer auf[cite: 2]. In der Galerie Novodny an der Brienner Straße kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].",
         characters: ["Dr. Martin Krüger", "Paul Hessreiter", "Galerist Novodny"],
         histKey: "Krüger = Felix Fechenbach / Ernst Toller; Greiderer = Georg Schrimpf.",
