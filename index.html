@@ -99,6 +99,33 @@
       opacity: 0.72;
     }
 
+    /* Pin Styling für perfekte Lesbarkeit der Zahlen */
+    .station-pin-bg {
+      fill: #090d16;
+      stroke: #38bdf8;
+      stroke-width: 1.5;
+      transition: all 0.2s ease;
+    }
+    .station-pin-text {
+      fill: #ffffff;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 11px;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+    .station-pin-active .station-pin-bg {
+      fill: #0284c7;
+      stroke: #ffffff;
+      stroke-width: 2.2;
+      filter: drop-shadow(0 0 8px #38bdf8);
+    }
+    .station-pin-active .station-pin-text {
+      fill: #ffffff;
+      font-size: 12px;
+    }
+
     /* Custom range slider */
     input[type=range] {
       -webkit-appearance: none;
@@ -123,7 +150,44 @@
       transform: scale(1.25);
     }
 
-    /* --- Responsive-Optimierung für Mobilgeräte --- */
+    /* Zoom-Controls Overlay */
+    .zoom-controls {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 25;
+    }
+    .zoom-btn {
+      width: 34px;
+      height: 34px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .zoom-btn:hover {
+      background: rgba(2, 132, 199, 0.4);
+      color: #ffffff;
+      border-color: #38bdf8;
+      transform: scale(1.05);
+    }
+    .zoom-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Responsive für Mobilgeräte */
     @media (max-width: 640px) {
       #stickyNoteContainer {
         top: 8px !important;
@@ -136,7 +200,7 @@
 
       #mainStickyCard {
         padding: 10px 12px !important;
-        max-height: 40vh !important;
+        max-height: 36vh !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch;
       }
@@ -153,7 +217,7 @@
       }
 
       #cardDescription {
-        font-size: 12px !important;
+        font-size: 11.5px !important;
         line-height: 1.35 !important;
         margin-bottom: 6px !important;
       }
@@ -172,12 +236,17 @@
         height: 76px !important;
         padding: 8px 12px !important;
       }
+
+      .zoom-controls {
+        bottom: 8px;
+        right: 8px;
+      }
     }
   </style>
 </head>
 <body class="w-screen h-screen flex flex-col justify-between p-2 md:p-4 bg-slate-950">
 
-  <!-- TOP HEADER: Museum Exhibition Banner -->
+  <!-- TOP HEADER -->
   <header class="w-full h-14 px-4 md:px-6 rounded-xl bg-slate-900/80 border border-slate-800 backdrop-blur-md flex items-center justify-between z-30 shadow-lg shrink-0">
     <div class="flex items-center gap-3">
       <div class="w-3 h-3 rounded-full bg-sky-400 animate-pulse shadow-[0_0_12px_#38bdf8]"></div>
@@ -208,17 +277,17 @@
         <span id="audioStatusDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
         <span class="hidden sm:inline">Projektor-Ton</span>
       </button>
-      <button id="resetCameraBtn" class="px-3 py-1.5 rounded-lg text-xs font-mono-code bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 transition">
+      <button id="resetCameraBtn" class="px-3 py-1.5 rounded-lg text-xs font-mono-code bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 transition" title="Kamera zurücksetzen">
         Reset
       </button>
     </div>
   </header>
 
-  <!-- MAIN WORKSPACE: THE EXHIBITION PROJECTION WALL -->
+  <!-- MAIN PROJECTION WALL WORKSPACE -->
   <main class="relative flex-1 w-full my-2 rounded-2xl projection-screen-board overflow-hidden border border-slate-700/50 shadow-2xl flex items-center justify-center">
 
     <!-- Interactive SVG Map Viewport -->
-    <div id="mapViewport" class="absolute inset-0 cursor-grab active:cursor-grabbing transition-transform duration-700 ease-out flex items-center justify-center">
+    <div id="mapViewport" class="absolute inset-0 cursor-grab active:cursor-grabbing flex items-center justify-center origin-center">
       <svg id="munichSvgMap" viewBox="0 0 1100 850" class="w-full h-full select-none" preserveAspectRatio="xMidYMid meet">
         <defs>
           <marker id="cyanArrowHead" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
@@ -301,6 +370,13 @@
         <circle id="focalPulse" cx="-100" cy="-100" r="32" fill="url(#focalBeaconGlow)" class="pointer-events-none transition-all duration-700 opacity-0" />
         <circle id="focalPoint" cx="-100" cy="-100" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5" class="pointer-events-none transition-all duration-500 shadow-xl opacity-0" />
       </svg>
+    </div>
+
+    <!-- ZOOM CONTROLS (Floating right bottom) -->
+    <div class="zoom-controls">
+      <button id="zoomInBtn" class="zoom-btn" title="Vergrößern (+)">+</button>
+      <button id="zoomOutBtn" class="zoom-btn" title="Verkleinern (−)">−</button>
+      <button id="zoomResetBtn" class="zoom-btn text-xs" title="Ansicht zentrieren">⤢</button>
     </div>
 
     <!-- FLOATING STACKED CYAN POST-IT NOTES -->
@@ -415,10 +491,6 @@
   </footer>
 
   <script>
-    /**
-     * TOPOGRAPHISCHER DATENSATZ AUS LION FEUCHTWANGERS "ERFOLG" (BÜCHER 1 - 5)
-     * Station 1 (Brienner Str.) und Station 2 (Katharinenstr.) sind sauber getrennt.
-     */
     const STATIONS = [
       {
         id: "st-1",
@@ -674,6 +746,13 @@
     let timer = null;
     let audioEnabled = false;
 
+    // Zoom & Pan State
+    let zoomLevel = 1.0;
+    let panX = 0;
+    let panY = 0;
+    const MIN_ZOOM = 0.8;
+    const MAX_ZOOM = 3.8;
+
     // DOM References
     const mapViewport = document.getElementById("mapViewport");
     const pinsGroup = document.getElementById("pinsGroup");
@@ -695,6 +774,11 @@
     const toggleAudioAtmosphere = document.getElementById("toggleAudioAtmosphere");
     const audioStatusDot = document.getElementById("audioStatusDot");
 
+    // Zoom Controls DOM
+    const zoomInBtn = document.getElementById("zoomInBtn");
+    const zoomOutBtn = document.getElementById("zoomOutBtn");
+    const zoomResetBtn = document.getElementById("zoomResetBtn");
+
     // Sticky Card Elements
     const mainStickyCard = document.getElementById("mainStickyCard");
     const subCardNovelFigure = document.getElementById("subCardNovelFigure");
@@ -709,6 +793,34 @@
     const currentPhaseBadge = document.getElementById("currentPhaseBadge");
     const stationIndexBadge = document.getElementById("stationIndexBadge");
     const footerStationPreview = document.getElementById("footerStationPreview");
+
+    function applyTransform(smooth = true) {
+      mapViewport.style.transition = smooth ? "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)" : "none";
+      mapViewport.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+    }
+
+    function setZoom(newZoom, centerX = window.innerWidth / 2, centerY = window.innerHeight / 2) {
+      const clamped = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, newZoom));
+      if (clamped === zoomLevel) return;
+
+      const rect = mapViewport.getBoundingClientRect();
+      const mouseX = centerX - rect.left;
+      const mouseY = centerY - rect.top;
+
+      const factor = clamped / zoomLevel;
+      panX -= (mouseX - mouseX / factor) * (zoomLevel / clamped);
+      panY -= (mouseY - mouseY / factor) * (zoomLevel / clamped);
+      zoomLevel = clamped;
+
+      applyTransform(true);
+    }
+
+    function resetView() {
+      zoomLevel = 1.0;
+      panX = 0;
+      panY = 0;
+      applyTransform(true);
+    }
 
     let audioContext = null;
     function playProjectorSlideSound() {
@@ -732,7 +844,7 @@
         osc.start();
         osc.stop(audioContext.currentTime + 0.08);
       } catch(e) {
-        console.warn("Audio synthesis error:", e);
+        console.warn("Audio error:", e);
       }
     }
 
@@ -742,24 +854,30 @@
       sliderTicks.innerHTML = "";
 
       STATIONS.forEach((st, idx) => {
+        // SVG Map Pin mit kontraststarkem Kreis & gut lesbarer Zahl
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        g.setAttribute("class", "cursor-pointer transition-transform duration-300");
+        g.setAttribute("class", "cursor-pointer transition-transform duration-200");
         g.setAttribute("id", `map-pin-${idx}`);
         g.setAttribute("transform", `translate(${st.coords.x}, ${st.coords.y})`);
 
         g.innerHTML = `
-          <circle r="14" fill="#38bdf8" fill-opacity="0.16" stroke="#38bdf8" stroke-width="1.2" class="hover:stroke-white transition"/>
-          <circle r="5" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
-          <text y="-16" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="'Space Mono', monospace" font-weight="bold" class="pointer-events-none">${idx + 1}</text>
+          <!-- Pulsierender Leuchtrahmen -->
+          <circle r="16" class="pin-halo fill-sky-400/10 stroke-sky-400/40 hover:stroke-white transition" stroke-width="1.2" />
+          <!-- Solider dunkler Kreis als Kontrastbasis -->
+          <circle r="10" class="station-pin-bg" />
+          <!-- Deutlich lesbare Zahl im Pin -->
+          <text class="station-pin-text" y="0.5">${idx + 1}</text>
         `;
 
-        g.addEventListener("click", () => {
+        g.addEventListener("click", (e) => {
+          e.stopPropagation();
           pauseTimelapse();
           renderStationIndex(idx);
         });
 
         pinsGroup.appendChild(g);
 
+        // Sidebar Item
         const itemBtn = document.createElement("button");
         itemBtn.className = "w-full text-left px-3 py-2 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 transition flex items-center justify-between text-xs";
         itemBtn.id = `side-station-item-${idx}`;
@@ -778,6 +896,7 @@
 
         stationsListContainer.appendChild(itemBtn);
 
+        // Slider Tick
         const tick = document.createElement("span");
         tick.className = "w-1 h-2 bg-slate-400 rounded-sm";
         sliderTicks.appendChild(tick);
@@ -860,24 +979,16 @@
       updatePointerArrow(st.coords.x, st.coords.y);
       updateTrajectory(index);
 
+      // Pins & Liste updaten
       STATIONS.forEach((_, idx) => {
         const pin = document.getElementById(`map-pin-${idx}`);
         const sideItem = document.getElementById(`side-station-item-${idx}`);
 
         if (pin) {
-          const innerCircle = pin.querySelector("circle:nth-child(2)");
           if (idx === index) {
-            pin.classList.add("scale-125");
-            if (innerCircle) {
-              innerCircle.setAttribute("fill", "#38bdf8");
-              innerCircle.setAttribute("r", "7");
-            }
+            pin.setAttribute("class", "cursor-pointer scale-125 station-pin-active");
           } else {
-            pin.classList.remove("scale-125");
-            if (innerCircle) {
-              innerCircle.setAttribute("fill", idx < index ? "#94a3b8" : "#ffffff");
-              innerCircle.setAttribute("r", "5");
-            }
+            pin.setAttribute("class", "cursor-pointer hover:scale-110 transition-transform");
           }
         }
 
@@ -921,6 +1032,7 @@
       playPauseBtn.classList.replace("text-amber-950", "text-slate-950");
     }
 
+    // Event Listeners
     playPauseBtn.addEventListener("click", () => {
       if (isPlaying) pauseTimelapse();
       else startTimelapse();
@@ -948,9 +1060,11 @@
       }
     });
 
-    resetCameraBtn.addEventListener("click", () => {
-      mapViewport.style.transform = "scale(1) translate(0px, 0px)";
-    });
+    // Zoom Buttons
+    zoomInBtn.addEventListener("click", () => setZoom(zoomLevel * 1.3));
+    zoomOutBtn.addEventListener("click", () => setZoom(zoomLevel / 1.3));
+    zoomResetBtn.addEventListener("click", resetView);
+    resetCameraBtn.addEventListener("click", resetView);
 
     toggleAudioAtmosphere.addEventListener("click", () => {
       audioEnabled = !audioEnabled;
@@ -964,6 +1078,86 @@
       }
     });
 
+    // Mausrad Zoom
+    const mainScreen = document.querySelector("main");
+    mainScreen.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      setZoom(zoomLevel * zoomFactor, e.clientX, e.clientY);
+    }, { passive: false });
+
+    // Pan / Drag mit Maus
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    mapViewport.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      isDragging = true;
+      dragStartX = e.clientX - panX;
+      dragStartY = e.clientY - panY;
+      mapViewport.style.transition = "none";
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      panX = e.clientX - dragStartX;
+      panY = e.clientY - dragStartY;
+      applyTransform(false);
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        applyTransform(true);
+      }
+    });
+
+    // Touch-Steuerung (Pinch-to-Zoom & Pan für Smartphones)
+    let initialPinchDistance = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function getTouchDistance(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    mainScreen.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        touchStartX = e.touches[0].clientX - panX;
+        touchStartY = e.touches[0].clientY - panY;
+      } else if (e.touches.length === 2) {
+        isDragging = false;
+        initialPinchDistance = getTouchDistance(e.touches);
+      }
+    }, { passive: true });
+
+    mainScreen.addEventListener("touchmove", (e) => {
+      if (e.touches.length === 1 && isDragging) {
+        panX = e.touches[0].clientX - touchStartX;
+        panY = e.touches[0].clientY - touchStartY;
+        applyTransform(false);
+      } else if (e.touches.length === 2 && initialPinchDistance) {
+        const newDist = getTouchDistance(e.touches);
+        const factor = newDist / initialPinchDistance;
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+        setZoom(zoomLevel * (factor > 1 ? 1.04 : 0.96), midX, midY);
+        initialPinchDistance = newDist;
+      }
+    }, { passive: true });
+
+    mainScreen.addEventListener("touchend", () => {
+      isDragging = false;
+      initialPinchDistance = null;
+      applyTransform(true);
+    });
+
+    // Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") {
         pauseTimelapse();
@@ -975,32 +1169,10 @@
         e.preventDefault();
         if (isPlaying) pauseTimelapse();
         else startTimelapse();
-      }
-    });
-
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartY = 0;
-
-    mapViewport.addEventListener("mousedown", (e) => {
-      if (e.button !== 0) return;
-      isDragging = true;
-      dragStartX = e.clientX;
-      dragStartY = e.clientY;
-      mapViewport.classList.remove("duration-700");
-    });
-
-    window.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      const dx = (e.clientX - dragStartX) * 0.35;
-      const dy = (e.clientY - dragStartY) * 0.35;
-      mapViewport.style.transform = `scale(1.08) translate(${dx}px, ${dy}px)`;
-    });
-
-    window.addEventListener("mouseup", () => {
-      if (isDragging) {
-        isDragging = false;
-        mapViewport.classList.add("duration-700");
+      } else if (e.key === "+" || e.key === "=") {
+        setZoom(zoomLevel * 1.25);
+      } else if (e.key === "-") {
+        setZoom(zoomLevel / 1.25);
       }
     });
 
