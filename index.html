@@ -36,14 +36,12 @@
       font-family: 'Caveat', cursive;
     }
 
-    /* Museum gallery projection screen surface */
     .projection-screen-board {
       background: radial-gradient(circle at 48% 46%, #333d4e 0%, #242c3b 45%, #181d27 85%, #121620 100%);
       box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.75), 0 25px 60px -15px rgba(0,0,0,0.8);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Cyan Sticky Notes matching the photo projection */
     .cyan-sticky-note {
       background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #03253b;
@@ -64,7 +62,6 @@
       border: 1px dashed rgba(56, 189, 248, 0.45);
     }
 
-    /* Crisp white vector map lines as projected */
     .map-river {
       stroke: #38bdf8;
       stroke-opacity: 0.9;
@@ -99,7 +96,6 @@
       opacity: 0.72;
     }
 
-    /* Pin Styling für perfekte Lesbarkeit der Zahlen */
     .station-pin-bg {
       fill: #090d16;
       stroke: #38bdf8;
@@ -126,7 +122,6 @@
       font-size: 12px;
     }
 
-    /* Custom range slider */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
@@ -150,44 +145,51 @@
       transform: scale(1.25);
     }
 
-    /* Zoom-Controls Overlay */
+    /* Zoom-Buttons: Links platziert, voll sichtbar und klickbar */
     .zoom-controls {
       position: absolute;
-      bottom: 16px;
-      right: 16px;
+      bottom: 20px;
+      left: 308px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      z-index: 25;
+      z-index: 50;
     }
     .zoom-btn {
-      width: 34px;
-      height: 34px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      width: 36px;
+      height: 36px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.45);
       color: #38bdf8;
       font-family: 'Space Mono', monospace;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       transition: all 0.2s ease;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
     .zoom-btn:hover {
-      background: rgba(2, 132, 199, 0.4);
+      background: rgba(2, 132, 199, 0.5);
       color: #ffffff;
       border-color: #38bdf8;
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
     .zoom-btn:active {
       transform: scale(0.95);
     }
 
-    /* Responsive für Mobilgeräte */
+    @media (max-width: 1024px) {
+      .zoom-controls {
+        left: 14px;
+        bottom: 14px;
+      }
+    }
+
     @media (max-width: 640px) {
       #stickyNoteContainer {
         top: 8px !important;
@@ -236,11 +238,6 @@
         height: 76px !important;
         padding: 8px 12px !important;
       }
-
-      .zoom-controls {
-        bottom: 8px;
-        right: 8px;
-      }
     }
   </style>
 </head>
@@ -259,7 +256,6 @@
       </div>
     </div>
 
-    <!-- Timeline Phase Badge -->
     <div class="hidden lg:flex items-center gap-3 font-mono-code text-xs">
       <div class="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-2">
         <span class="text-slate-500 uppercase tracking-widest text-[10px]">Buch:</span>
@@ -271,7 +267,6 @@
       </div>
     </div>
 
-    <!-- Control Actions -->
     <div class="flex items-center gap-2">
       <button id="toggleAudioAtmosphere" class="px-3 py-1.5 rounded-lg text-xs font-mono-code bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700 transition flex items-center gap-1.5">
         <span id="audioStatusDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
@@ -301,20 +296,17 @@
           </radialGradient>
         </defs>
 
-        <!-- BLUEPRINT GRID -->
         <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
           <path d="M 0,100 H 1100 M 0,200 H 1100 M 0,300 H 1100 M 0,400 H 1100 M 0,500 H 1100 M 0,600 H 1100 M 0,700 H 1100 M 0,800 H 1100" />
           <path d="M 100,0 V 850 M 200,0 V 850 M 300,0 V 850 M 400,0 V 850 M 500,0 V 850 M 600,0 V 850 M 700,0 V 850 M 800,0 V 850 M 900,0 V 850 M 1000,0 V 850" />
         </g>
 
-        <!-- WATERWAYS: ISAR & CANALS -->
         <g id="waterSystem">
           <path class="map-river" stroke-width="8" d="M 320,860 C 370,770 420,710 470,640 C 510,580 525,520 565,450 C 600,380 655,310 700,210 C 740,130 790,60 840,-20" />
           <path class="map-river" stroke-width="3.5" d="M 505,600 C 535,550 550,500 580,455 C 610,405 650,340 685,270" />
           <path class="map-river" stroke-width="2.5" d="M 590,410 C 615,360 640,290 665,180 C 685,110 720,40 750,-20" />
         </g>
 
-        <!-- ALTSTADT INNER PERIMETER -->
         <g id="altstadtCore">
           <path class="map-artery-ring" d="M 470,470 C 455,405 485,355 550,345 C 615,345 640,385 625,455 C 605,505 575,540 520,535 C 480,530 475,500 470,470 Z" />
           <path class="map-artery-primary" d="M 475,445 L 540,448 L 585,455 L 615,485" />
@@ -322,7 +314,6 @@
           <path class="map-artery-primary" d="M 540,448 L 510,495 L 490,525" />
         </g>
 
-        <!-- PRIMARY RADIAL ARTERIES -->
         <g id="arteries">
           <path class="map-artery-primary" stroke-width="2.6" d="M 555,350 L 570,240 L 585,130 L 600,0" />
           <path class="map-artery-primary" stroke-width="2.2" d="M 555,350 L 475,340 L 395,330 L 310,315" />
@@ -337,7 +328,6 @@
           <path class="map-artery-primary" d="M 355,370 L 275,340 L 180,295 L 90,250" />
         </g>
 
-        <!-- DETAILED WHITE STREET MESH -->
         <g id="secondaryGrid" class="map-street-mesh">
           <path d="M 520,180 H 650 M 510,220 H 670 M 530,260 H 660 M 500,140 H 640 M 515,100 H 635" />
           <path d="M 520,110 V 290 M 550,90 V 300 M 610,80 V 300 M 640,110 V 300" />
@@ -352,7 +342,6 @@
           <path d="M 350,460 C 350,522 412,555 412,492 Z" stroke-dasharray="2,2" />
         </g>
 
-        <!-- TOPOGRAPHICAL DISTRICT LABELS -->
         <g id="districtLabels" opacity="0.4" fill="#f8fafc" class="font-mono-code text-[11px] tracking-widest font-semibold uppercase">
           <text x="590" y="105">Schwabing</text>
           <text x="410" y="270">Maxvorstadt</text>
@@ -372,11 +361,11 @@
       </svg>
     </div>
 
-    <!-- ZOOM CONTROLS (Floating right bottom) -->
+    <!-- ZOOM BUTTONS: Links platziert, immer sichtbar und klickbar -->
     <div class="zoom-controls">
       <button id="zoomInBtn" class="zoom-btn" title="Vergrößern (+)">+</button>
       <button id="zoomOutBtn" class="zoom-btn" title="Verkleinern (−)">−</button>
-      <button id="zoomResetBtn" class="zoom-btn text-xs" title="Ansicht zentrieren">⤢</button>
+      <button id="zoomResetBtn" class="zoom-btn text-xs" title="Zentrieren">⤢</button>
     </div>
 
     <!-- FLOATING STACKED CYAN POST-IT NOTES -->
@@ -753,7 +742,6 @@
     const MIN_ZOOM = 0.8;
     const MAX_ZOOM = 3.8;
 
-    // DOM References
     const mapViewport = document.getElementById("mapViewport");
     const pinsGroup = document.getElementById("pinsGroup");
     const routeTrajectory = document.getElementById("routeTrajectory");
@@ -774,12 +762,10 @@
     const toggleAudioAtmosphere = document.getElementById("toggleAudioAtmosphere");
     const audioStatusDot = document.getElementById("audioStatusDot");
 
-    // Zoom Controls DOM
     const zoomInBtn = document.getElementById("zoomInBtn");
     const zoomOutBtn = document.getElementById("zoomOutBtn");
     const zoomResetBtn = document.getElementById("zoomResetBtn");
 
-    // Sticky Card Elements
     const mainStickyCard = document.getElementById("mainStickyCard");
     const subCardNovelFigure = document.getElementById("subCardNovelFigure");
     const cardYear = document.getElementById("cardYear");
@@ -854,18 +840,14 @@
       sliderTicks.innerHTML = "";
 
       STATIONS.forEach((st, idx) => {
-        // SVG Map Pin mit kontraststarkem Kreis & gut lesbarer Zahl
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
         g.setAttribute("class", "cursor-pointer transition-transform duration-200");
         g.setAttribute("id", `map-pin-${idx}`);
         g.setAttribute("transform", `translate(${st.coords.x}, ${st.coords.y})`);
 
         g.innerHTML = `
-          <!-- Pulsierender Leuchtrahmen -->
           <circle r="16" class="pin-halo fill-sky-400/10 stroke-sky-400/40 hover:stroke-white transition" stroke-width="1.2" />
-          <!-- Solider dunkler Kreis als Kontrastbasis -->
           <circle r="10" class="station-pin-bg" />
-          <!-- Deutlich lesbare Zahl im Pin -->
           <text class="station-pin-text" y="0.5">${idx + 1}</text>
         `;
 
@@ -877,7 +859,6 @@
 
         pinsGroup.appendChild(g);
 
-        // Sidebar Item
         const itemBtn = document.createElement("button");
         itemBtn.className = "w-full text-left px-3 py-2 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 transition flex items-center justify-between text-xs";
         itemBtn.id = `side-station-item-${idx}`;
@@ -896,7 +877,6 @@
 
         stationsListContainer.appendChild(itemBtn);
 
-        // Slider Tick
         const tick = document.createElement("span");
         tick.className = "w-1 h-2 bg-slate-400 rounded-sm";
         sliderTicks.appendChild(tick);
@@ -979,7 +959,6 @@
       updatePointerArrow(st.coords.x, st.coords.y);
       updateTrajectory(index);
 
-      // Pins & Liste updaten
       STATIONS.forEach((_, idx) => {
         const pin = document.getElementById(`map-pin-${idx}`);
         const sideItem = document.getElementById(`side-station-item-${idx}`);
@@ -1032,7 +1011,6 @@
       playPauseBtn.classList.replace("text-amber-950", "text-slate-950");
     }
 
-    // Event Listeners
     playPauseBtn.addEventListener("click", () => {
       if (isPlaying) pauseTimelapse();
       else startTimelapse();
@@ -1060,7 +1038,6 @@
       }
     });
 
-    // Zoom Buttons
     zoomInBtn.addEventListener("click", () => setZoom(zoomLevel * 1.3));
     zoomOutBtn.addEventListener("click", () => setZoom(zoomLevel / 1.3));
     zoomResetBtn.addEventListener("click", resetView);
@@ -1078,7 +1055,6 @@
       }
     });
 
-    // Mausrad Zoom
     const mainScreen = document.querySelector("main");
     mainScreen.addEventListener("wheel", (e) => {
       e.preventDefault();
@@ -1086,7 +1062,6 @@
       setZoom(zoomLevel * zoomFactor, e.clientX, e.clientY);
     }, { passive: false });
 
-    // Pan / Drag mit Maus
     let isDragging = false;
     let dragStartX = 0;
     let dragStartY = 0;
@@ -1113,7 +1088,6 @@
       }
     });
 
-    // Touch-Steuerung (Pinch-to-Zoom & Pan für Smartphones)
     let initialPinchDistance = null;
     let touchStartX = 0;
     let touchStartY = 0;
@@ -1157,7 +1131,6 @@
       applyTransform(true);
     });
 
-    // Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") {
         pauseTimelapse();
