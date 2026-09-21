@@ -338,7 +338,7 @@
         </div>
 
         <p id="cardDescription" class="text-sm leading-relaxed text-sky-950/95 font-medium mb-3.5 font-serif-title text-base line-clamp-4 hover:line-clamp-none transition-all">
-          Subdirektor Dr. Martin Krüger lässt in Saal VI das Bild »Josef und seine Brüder« aufhängen. In der Galerie Novodny kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider.
+          Subdirektor Dr. Martin Krüger lässt in Saal VI das Bild »Josef und seine Brüder« aufhängen[cite: 2]. In der Galerie Novodny kauft Hessreiter demonstrativ den beanstandeten Akt der toten Haider[cite: 2].
         </p>
 
         <div class="border-t border-sky-950/20 pt-2.5 mb-2.5">
@@ -742,7 +742,6 @@
       sliderTicks.innerHTML = "";
 
       STATIONS.forEach((st, idx) => {
-        // 1. Create SVG Map Pin
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
         g.setAttribute("class", "cursor-pointer transition-transform duration-300");
         g.setAttribute("id", `map-pin-${idx}`);
@@ -761,7 +760,6 @@
 
         pinsGroup.appendChild(g);
 
-        // 2. Create Left Sidebar Drawer Item
         const itemBtn = document.createElement("button");
         itemBtn.className = "w-full text-left px-3 py-2 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 transition flex items-center justify-between text-xs";
         itemBtn.id = `side-station-item-${idx}`;
@@ -780,7 +778,6 @@
 
         stationsListContainer.appendChild(itemBtn);
 
-        // 3. Slider Tick
         const tick = document.createElement("span");
         tick.className = "w-1 h-2 bg-slate-400 rounded-sm";
         sliderTicks.appendChild(tick);
